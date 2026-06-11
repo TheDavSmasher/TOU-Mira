@@ -34,7 +34,6 @@ using TownOfUs.Modifiers.Neutral;
 using TownOfUs.Modules;
 using TownOfUs.Modules.Anims;
 using TownOfUs.Modules.Components;
-using TownOfUs.Modules.ControlSystem;
 using TownOfUs.Modules.RainbowMod;
 using TownOfUs.Networking;
 using TownOfUs.Options;
@@ -455,7 +454,7 @@ public static class TownOfUsEventHandlers
             ParasiteRole.RpcParasiteEndControl(player, parasiteRole.Controlled);
         }
 
-        if (ParasiteControlState.IsControlled(player.PlayerId, out var controllerId))
+        if (ParasiteRole.ControlState.IsControlled(player.PlayerId, out var controllerId))
         {
             var controller = MiscUtils.PlayerById(controllerId);
             if (controller?.Data?.Role is ParasiteRole controllerRole && controllerRole.Controlled == player)
@@ -464,7 +463,7 @@ public static class TownOfUsEventHandlers
             }
             else
             {
-                ParasiteControlState.ClearControl(player.PlayerId);
+                ParasiteRole.ControlState.ClearControl(player.PlayerId);
             }
         }
 

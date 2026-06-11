@@ -3,7 +3,7 @@ using Reactor.Networking.Attributes;
 using Reactor.Networking.Extensions;
 using Reactor.Networking.Rpc;
 using TownOfUs.Modules;
-using TownOfUs.Modules.ControlSystem;
+using TownOfUs.Roles.Impostor;
 using UnityEngine;
 
 namespace TownOfUs.Networking;
@@ -63,13 +63,13 @@ internal sealed class ParasiteInputUnreliableRpc(TownOfUsPlugin plugin, uint id)
         }
 
         if (sender == null ||
-            !ParasiteControlState.IsControlled(data.ControlledId, out var controllerId) ||
+            !ParasiteRole.ControlState.IsControlled(data.ControlledId, out var controllerId) ||
             controllerId != sender.PlayerId)
         {
             return;
         }
 
-        ParasiteControlState.SetDirection(data.ControlledId, data.Direction);
-        ParasiteControlState.SetMovementState(data.ControlledId, data.Position, data.Velocity);
+        ParasiteRole.ControlState.SetDirection(data.ControlledId, data.Direction);
+        ParasiteRole.ControlState.SetMovementState(data.ControlledId, data.Position, data.Velocity);
     }
 }

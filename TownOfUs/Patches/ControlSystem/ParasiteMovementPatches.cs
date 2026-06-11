@@ -4,7 +4,6 @@ using MiraAPI.Modifiers;
 using Reactor.Networking.Rpc;
 using TownOfUs.Modifiers.Impostor;
 using TownOfUs.Modules;
-using TownOfUs.Modules.ControlSystem;
 using TownOfUs.Networking;
 using TownOfUs.Options.Roles.Impostor;
 using TownOfUs.Roles.Impostor;
@@ -168,7 +167,7 @@ public static class ParasiteMovementPatches
             return false;
         }
 
-        if (ParasiteControlState.IsControlled(player.PlayerId, out _))
+        if (ParasiteRole.ControlState.IsControlled(player.PlayerId, out _))
         {
             if (TimeLordRewindSystem.IsRewinding)
             {
@@ -177,7 +176,7 @@ public static class ParasiteMovementPatches
 
             if (player.onLadder || player.inMovingPlat)
             {
-                ParasiteControlState.ClearMovementState(player.PlayerId);
+                ParasiteRole.ControlState.ClearMovementState(player.PlayerId);
                 return true;
             }
 
@@ -186,9 +185,9 @@ public static class ParasiteMovementPatches
                 return true;
             }
 
-            var dir = ParasiteControlState.GetDirection(player.PlayerId);
-            var pos = ParasiteControlState.GetPosition(player.PlayerId);
-            var vel = ParasiteControlState.GetVelocity(player.PlayerId);
+            var dir = ParasiteRole.ControlState.GetDirection(player.PlayerId);
+            var pos = ParasiteRole.ControlState.GetPosition(player.PlayerId);
+            var vel = ParasiteRole.ControlState.GetVelocity(player.PlayerId);
 
             // AUTHORITATIVE CONTROL: Apply movement the SAME way on ALL clients
             // Use direction directly (controller is authoritative), position/velocity only for correction
@@ -243,7 +242,7 @@ public static class ParasiteMovementPatches
 
             if (player.onLadder || player.inMovingPlat)
             {
-                ParasiteControlState.ClearMovementState(player.PlayerId);
+                ParasiteRole.ControlState.ClearMovementState(player.PlayerId);
                 return true;
             }
 
@@ -252,9 +251,9 @@ public static class ParasiteMovementPatches
                 return true;
             }
 
-            var dir = ParasiteControlState.GetDirection(player.PlayerId);
-            var pos = ParasiteControlState.GetPosition(player.PlayerId);
-            var vel = ParasiteControlState.GetVelocity(player.PlayerId);
+            var dir = ParasiteRole.ControlState.GetDirection(player.PlayerId);
+            var pos = ParasiteRole.ControlState.GetPosition(player.PlayerId);
+            var vel = ParasiteRole.ControlState.GetVelocity(player.PlayerId);
             
             if (dir == Vector2.zero)
             {
@@ -305,9 +304,9 @@ public static class ParasiteMovementPatches
             return true;
         }
 
-        if (player.AmOwner && ParasiteControlState.IsControlled(player.PlayerId, out _))
+        if (player.AmOwner && ParasiteRole.ControlState.IsControlled(player.PlayerId, out _))
         {
-            direction = ParasiteControlState.GetDirection(player.PlayerId);
+            direction = ParasiteRole.ControlState.GetDirection(player.PlayerId);
         }
 
         return true;
@@ -323,7 +322,7 @@ public static class ParasiteMovementPatches
         }
 
         var player = __instance.myPlayer;
-        if (!ParasiteControlState.IsControlled(player.PlayerId, out _))
+        if (!ParasiteRole.ControlState.IsControlled(player.PlayerId, out _))
         {
             return true;
         }

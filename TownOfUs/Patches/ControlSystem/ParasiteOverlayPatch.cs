@@ -1,7 +1,6 @@
 ﻿using HarmonyLib;
 using MiraAPI.Modifiers;
 using TownOfUs.Modifiers.Impostor;
-using TownOfUs.Modules.ControlSystem;
 using TownOfUs.Roles.Impostor;
 
 namespace TownOfUs.Patches.ControlSystem;
@@ -34,7 +33,7 @@ public static class ParasiteOverlayPatch
 
             if (!shouldClear)
             {
-                if (!ParasiteControlState.IsControlled(local.PlayerId, out var controllerId))
+                if (!ParasiteRole.ControlState.IsControlled(local.PlayerId, out var controllerId))
                 {
                     shouldClear = true;
                 }
@@ -51,7 +50,7 @@ public static class ParasiteOverlayPatch
             if (shouldClear)
             {
                 mod.ClearNotification();
-                ParasiteControlState.ClearControl(local.PlayerId);
+                ParasiteRole.ControlState.ClearControl(local.PlayerId);
                 local.RemoveModifier(mod);
                 return;
             }

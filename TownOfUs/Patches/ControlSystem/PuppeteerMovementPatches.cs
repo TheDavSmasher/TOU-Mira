@@ -3,7 +3,6 @@ using MiraAPI.Modifiers;
 using Reactor.Networking.Rpc;
 using TownOfUs.Modifiers.Impostor;
 using TownOfUs.Modules;
-using TownOfUs.Modules.ControlSystem;
 using TownOfUs.Networking;
 using TownOfUs.Roles.Impostor;
 using UnityEngine;
@@ -149,7 +148,7 @@ public static class PuppeteerMovementPatches
             return false;
         }
 
-        if (PuppeteerControlState.IsControlled(player.PlayerId, out _))
+        if (PuppeteerRole.ControlState.IsControlled(player.PlayerId, out _))
         {
             if (TimeLordRewindSystem.IsRewinding)
             {
@@ -158,7 +157,7 @@ public static class PuppeteerMovementPatches
 
             if (player.onLadder || player.inMovingPlat)
             {
-                PuppeteerControlState.ClearMovementState(player.PlayerId);
+                PuppeteerRole.ControlState.ClearMovementState(player.PlayerId);
                 return true;
             }
 
@@ -167,9 +166,9 @@ public static class PuppeteerMovementPatches
                 return true;
             }
 
-            var dir = PuppeteerControlState.GetDirection(player.PlayerId);
-            var pos = PuppeteerControlState.GetPosition(player.PlayerId);
-            var vel = PuppeteerControlState.GetVelocity(player.PlayerId);
+            var dir = PuppeteerRole.ControlState.GetDirection(player.PlayerId);
+            var pos = PuppeteerRole.ControlState.GetPosition(player.PlayerId);
+            var vel = PuppeteerRole.ControlState.GetVelocity(player.PlayerId);
 
             if (dir == Vector2.zero)
             {
@@ -219,7 +218,7 @@ public static class PuppeteerMovementPatches
 
             if (player.onLadder || player.inMovingPlat)
             {
-                PuppeteerControlState.ClearMovementState(player.PlayerId);
+                PuppeteerRole.ControlState.ClearMovementState(player.PlayerId);
                 return true;
             }
 
@@ -228,9 +227,9 @@ public static class PuppeteerMovementPatches
                 return true;
             }
 
-            var dir = PuppeteerControlState.GetDirection(player.PlayerId);
-            var pos = PuppeteerControlState.GetPosition(player.PlayerId);
-            var vel = PuppeteerControlState.GetVelocity(player.PlayerId);
+            var dir = PuppeteerRole.ControlState.GetDirection(player.PlayerId);
+            var pos = PuppeteerRole.ControlState.GetPosition(player.PlayerId);
+            var vel = PuppeteerRole.ControlState.GetVelocity(player.PlayerId);
             
             if (dir == Vector2.zero)
             {
@@ -281,9 +280,9 @@ public static class PuppeteerMovementPatches
             return true;
         }
 
-        if (player.AmOwner && PuppeteerControlState.IsControlled(player.PlayerId, out _))
+        if (player.AmOwner && PuppeteerRole.ControlState.IsControlled(player.PlayerId, out _))
         {
-            direction = PuppeteerControlState.GetDirection(player.PlayerId);
+            direction = PuppeteerRole.ControlState.GetDirection(player.PlayerId);
         }
 
         return true;
@@ -299,7 +298,7 @@ public static class PuppeteerMovementPatches
         }
 
         var player = __instance.myPlayer;
-        if (!PuppeteerControlState.IsControlled(player.PlayerId, out _))
+        if (!PuppeteerRole.ControlState.IsControlled(player.PlayerId, out _))
         {
             return true;
         }

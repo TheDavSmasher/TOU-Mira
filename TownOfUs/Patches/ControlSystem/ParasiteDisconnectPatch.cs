@@ -1,7 +1,6 @@
 ﻿using HarmonyLib;
 using MiraAPI.Modifiers;
 using TownOfUs.Modifiers.Impostor;
-using TownOfUs.Modules.ControlSystem;
 using TownOfUs.Roles.Impostor;
 
 namespace TownOfUs.Patches.ControlSystem;
@@ -18,7 +17,7 @@ public static class ParasiteDisconnectPatch
             return;
         }
 
-        if (ParasiteControlState.IsControlled(player.PlayerId, out var controllerId))
+        if (ParasiteRole.ControlState.IsControlled(player.PlayerId, out var controllerId))
         {
             var controller = MiscUtils.PlayerById(controllerId);
             if (controller != null)
@@ -27,7 +26,7 @@ public static class ParasiteDisconnectPatch
             }
             else
             {
-                ParasiteControlState.ClearControl(player.PlayerId);
+                ParasiteRole.ControlState.ClearControl(player.PlayerId);
 
                 if (player.TryGetModifier<ParasiteInfectedModifier>(out var mod))
                 {

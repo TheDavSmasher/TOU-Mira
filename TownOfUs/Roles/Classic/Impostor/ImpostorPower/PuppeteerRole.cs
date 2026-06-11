@@ -19,6 +19,8 @@ namespace TownOfUs.Roles.Impostor;
 
 public sealed class PuppeteerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfUsRole, IWikiDiscoverable, IDoomable, ITransportTrigger
 {
+    public static readonly ControlState ControlState = new();
+
     [HideFromIl2Cpp]
     public MonoBehaviour? OnTransport()
     {
@@ -193,7 +195,7 @@ public sealed class PuppeteerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOf
         role.Controlled = target;
         role.ControlTimer = OptionGroupSingleton<PuppeteerOptions>.Instance.ControlDuration.Value;
 
-        PuppeteerControlState.SetControl(target.PlayerId, puppeteer.PlayerId);
+        ControlState.SetControl(target.PlayerId, puppeteer.PlayerId);
         if (!target.HasModifier<PuppeteerControlModifier>())
         {
             target.AddModifier<PuppeteerControlModifier>(puppeteer);
@@ -254,7 +256,7 @@ public sealed class PuppeteerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOf
 
         if (target != null)
         {
-            PuppeteerControlState.ClearControl(target.PlayerId);
+            ControlState.ClearControl(target.PlayerId);
             if (target.TryGetModifier<PuppeteerControlModifier>(out var mod))
             {
                 target.RemoveModifier(mod);
@@ -349,7 +351,7 @@ public sealed class PuppeteerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOf
             return;
         }
 
-        if (role.Controlled != controlled || !PuppeteerControlState.IsControlled(controlled.PlayerId, out _))
+        if (role.Controlled != controlled || !ControlState.IsControlled(controlled.PlayerId, out _))
         {
             return;
         }
@@ -520,7 +522,7 @@ public sealed class PuppeteerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOf
 
     public void LobbyStart()
     {
-        PuppeteerControlState.ClearAll();
+        ControlState.ClearAll();
 
         foreach (var puppetMod in ModifierUtils.GetActiveModifiers<PuppeteerControlModifier>())
         {
