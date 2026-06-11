@@ -13,13 +13,13 @@ public class ControlState
     // During this grace window we avoid applying any victim movement input to prevent desync.
     public const float InitialControlSyncGraceSeconds = 1.0f;
 
-    private readonly Dictionary<byte, byte> ControlledBy = new();
-    private readonly Dictionary<byte, Vector2> ControlledDirection = new();
-    private readonly Dictionary<byte, Vector2> ControlledPosition = new();
-    private readonly Dictionary<byte, Vector2> ControlledVelocity = new();
-    private readonly Dictionary<byte, float> ControlledSince = new();
+    protected readonly Dictionary<byte, byte> ControlledBy = new();
+    protected readonly Dictionary<byte, Vector2> ControlledDirection = new();
+    protected readonly Dictionary<byte, Vector2> ControlledPosition = new();
+    protected readonly Dictionary<byte, Vector2> ControlledVelocity = new();
+    protected readonly Dictionary<byte, float> ControlledSince = new();
 
-    public void SetControl(byte controlledId, byte controllerId)
+    public virtual void SetControl(byte controlledId, byte controllerId)
     {
         ControlledBy[controlledId] = controllerId;
         ControlledDirection[controlledId] = Vector2.zero;
@@ -28,7 +28,7 @@ public class ControlState
         ControlledSince[controlledId] = Time.time;
     }
 
-    public void ClearControl(byte controlledId)
+    public virtual void ClearControl(byte controlledId)
     {
         ControlledBy.Remove(controlledId);
         ControlledDirection.Remove(controlledId);
@@ -47,7 +47,7 @@ public class ControlState
         ControlledDirection[controlledId] = direction;
     }
 
-    public Vector2 GetDirection(byte controlledId)
+    public virtual Vector2 GetDirection(byte controlledId)
     {
         return ControlledDirection.TryGetValue(controlledId, out var dir) ? dir : Vector2.zero;
     }
@@ -84,7 +84,7 @@ public class ControlState
         ControlledVelocity[controlledId] = Vector2.zero;
     }
 
-    public void ClearAll()
+    public virtual void ClearAll()
     {
         ControlledBy.Clear();
         ControlledDirection.Clear();
