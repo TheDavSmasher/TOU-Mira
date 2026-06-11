@@ -204,7 +204,7 @@ public sealed class MayorRole(IntPtr cppPtr)
         // hide meeting menu buttons (such as for guessers) for everyone but the mayor
         if (voteArea.TargetPlayerId != PlayerControl.LocalPlayer.PlayerId)
         {
-            MeetingMenu.Instances.Do(x => x.HideSingle(voteArea.TargetPlayerId));
+            MeetingMenu.HideSingleForAll(voteArea.TargetPlayerId);
         }
 
         MayorPlayer = Instantiate(TouAssets.MayorRevealPrefab.LoadAsset(), voteArea.transform);

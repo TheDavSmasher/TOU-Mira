@@ -437,7 +437,7 @@ public sealed class DoomsayerRole(IntPtr cppPtr)
                 {
                     OracleRole.RpcOracleBlessNotify(PlayerControl.LocalPlayer, oracleMod.Oracle, victim);
 
-                    MeetingMenu.Instances.Do(x => x.HideSingle(victim.PlayerId));
+                    MeetingMenu.HideSingleForAll(victim.PlayerId);
 
                     shapeMenu.Close();
 

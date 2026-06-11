@@ -27,7 +27,7 @@ public abstract class RevealModifier(int roleChangeResult, bool revealRole, Role
             var targetVoteArea = MeetingHud.Instance.playerStates.First(x => x.TargetPlayerId == Player.PlayerId);
             if (targetVoteArea.TargetPlayerId != PlayerControl.LocalPlayer.PlayerId)
             {
-                MeetingMenu.Instances.Do(x => x.HideSingle(targetVoteArea.TargetPlayerId));
+                MeetingMenu.HideSingleForAll(targetVoteArea.TargetPlayerId);
             }
         }
     }
@@ -77,7 +77,7 @@ public abstract class BaseRevealModifier : TimedModifier
             var targetVoteArea = MeetingHud.Instance.playerStates.First(x => x.TargetPlayerId == Player.PlayerId);
             if (targetVoteArea.TargetPlayerId != PlayerControl.LocalPlayer.PlayerId)
             {
-                MeetingMenu.Instances.Do(x => x.HideSingle(targetVoteArea.TargetPlayerId));
+                MeetingMenu.HideSingleForAll(targetVoteArea.TargetPlayerId);
             }
         }
     }

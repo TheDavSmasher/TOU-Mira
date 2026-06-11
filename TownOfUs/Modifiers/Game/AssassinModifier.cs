@@ -236,7 +236,7 @@ public class AssassinModifier : TouGameModifier, IWikiDiscoverable
             {
                 OracleRole.RpcOracleBlessNotify(PlayerControl.LocalPlayer, oracleMod.Oracle, victim);
 
-                MeetingMenu.Instances.Do(x => x.HideSingle(victim.PlayerId));
+                MeetingMenu.HideSingleForAll(victim.PlayerId);
 
                 shapeMenu.Close();
                 LastGuessedItem = string.Empty;
@@ -272,7 +272,7 @@ public class AssassinModifier : TouGameModifier, IWikiDiscoverable
             {
                 LastGuessedItem = string.Empty;
                 LastAttemptedVictim = null;
-                MeetingMenu.Instances.Do(x => x.HideSingle(victim.PlayerId));
+                MeetingMenu.HideSingleForAll(victim.PlayerId);
             }
 
             maxKills--;

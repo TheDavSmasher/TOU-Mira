@@ -251,6 +251,6 @@ public static class DeathEventHandlers
         pva.XMark.gameObject.SetActive(false);
         pva.XMark.transform.localScale = Vector3.one;
 
-        MeetingMenu.Instances.Do(x => x.HideSingle(player.PlayerId));
+        MeetingMenu.HideSingleForAll(player.PlayerId);
     }
 }

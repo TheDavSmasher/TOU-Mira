@@ -201,6 +201,16 @@ public sealed class MeetingMenu : IDisposable
         }
     }
 
+    public static void HideButtonsForAll()
+    {
+        Instances.Do(x => x.HideButtons());
+    }
+
+    public static void HideSingleForAll(byte targetId)
+    {
+        Instances.Do(x => x.HideSingle(targetId));
+    }
+
     public static void ClearAll()
     {
         Instances.Do(x => x.Dispose());
