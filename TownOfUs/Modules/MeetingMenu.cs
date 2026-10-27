@@ -83,8 +83,15 @@ public sealed class MeetingMenu : IDisposable
     public MeetingAbilityType Type { get; }
     public Vector3 Position { get; set; }
     public Dictionary<byte, bool> Actives { get; } = [];
-    public Dictionary<byte, GameObject> Buttons { get; } = [];
-    private Dictionary<byte, SpriteRenderer> ButtonSprites { get; } = [];
+    public Dictionary<byte, MenuButton> MenuButtons { get; } = [];
+
+    public record MenuButton(GameObject Button, SpriteRenderer Sprite)
+    {
+        public GameObject Button { get; } = Button;
+        internal SpriteRenderer Sprite { get; } = Sprite;
+
+        public static implicit operator bool(MenuButton m) => m != null;
+    }
 
     public void Dispose()
     {
@@ -93,25 +100,23 @@ public sealed class MeetingMenu : IDisposable
 
     public void HideButtons()
     {
-        Buttons.Keys.ToList().ForEach(HideSingle);
-        Buttons.Clear();
+        MenuButtons.Keys.ToList().ForEach(HideSingle);
+        MenuButtons.Clear();
         Actives.Clear();
-        ButtonSprites.Clear();
     }
 
     public void HideSingle(byte targetId)
     {
         Actives[targetId] = false;
 
-        if (!Buttons.TryGetValue(targetId, out var button) || !button)
+        if (!MenuButtons.TryGetValue(targetId, out var button) || !button)
         {
             return;
         }
 
-        button.SetActive(false);
-        button.Destroy();
-        Buttons[targetId] = null!;
-        ButtonSprites[targetId] = null!;
+        button.Button.SetActive(false);
+        button.Button.Destroy();
+        MenuButtons[targetId] = null!;
     }
 
     private void GenButton(PlayerVoteArea voteArea, MeetingHud __instance)
@@ -120,8 +125,7 @@ public sealed class MeetingMenu : IDisposable
 
         if (IsExempt(voteArea))
         {
-            Buttons.Add(voteArea.PlayerId, null!);
-            ButtonSprites.Add(voteArea.PlayerId, null!);
+            MenuButtons.Add(voteArea.PlayerId, null!);
             return;
         }
 
@@ -156,8 +160,7 @@ public sealed class MeetingMenu : IDisposable
         tmpText.fontSizeMax = 2.5f;
         tmpText.fontSizeMin = 2.5f;
         tmpText.m_enableWordWrapping = false;
-        Buttons.Add(voteArea.PlayerId, targetBox);
-        ButtonSprites.Add(voteArea.PlayerId, renderer);
+        MenuButtons.Add(voteArea.PlayerId, new(targetBox, renderer));
     }
 
     public void GenButtons(MeetingHud meeting, bool usable)
@@ -176,8 +179,7 @@ public sealed class MeetingMenu : IDisposable
         }
 
         Actives.Clear();
-        Buttons.Clear();
-        ButtonSprites.Clear();
+        MenuButtons.Clear();
         meeting.playerStates.ToList().ForEach(x => GenButton(x, meeting));
     }
 
@@ -188,15 +190,15 @@ public sealed class MeetingMenu : IDisposable
             return;
         }
 
-        foreach (var pair in ButtonSprites)
+        foreach (var (playerId, button) in MenuButtons)
         {
-            if (!pair.Value)
+            if (!button)
             {
                 continue;
             }
 
-            pair.Value.sprite = (Actives[pair.Key] ? ActiveSprite : DisabledSprite);
-            pair.Value.color = Actives[pair.Key] ? ActiveColor : DisabledColor;
+            button.Sprite.sprite = Actives[playerId] ? ActiveSprite : DisabledSprite;
+            button.Sprite.color  = Actives[playerId] ? ActiveColor  : DisabledColor;
         }
     }
 

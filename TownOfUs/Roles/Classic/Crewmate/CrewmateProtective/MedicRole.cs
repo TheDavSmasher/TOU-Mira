@@ -130,16 +130,16 @@ public sealed class MedicRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRo
             meetingMenu.GenButtons(meeting,
                 true);
 
-            foreach (var button in meetingMenu.Buttons)
+            foreach (var (playerId, button) in meetingMenu.MenuButtons)
             {
-                if (button.Value == null)
+                if (button.Button == null)
                 {
                     continue;
                 }
 
-                button.Value.transform.localScale *= 0.8f;
+                button.Button.transform.localScale *= 0.8f;
 
-                var player = MiscUtils.PlayerById(button.Key);
+                var player = MiscUtils.PlayerById(playerId);
 
                 if (player == null)
                 {
@@ -148,7 +148,7 @@ public sealed class MedicRole(IntPtr cppPtr) : CrewmateRole(cppPtr), ITownOfUsRo
 
                 var colorType = GetColorTypeForPlayer(player.Data.DefaultOutfit.ColorId);
 
-                var renderer = button.Value.GetComponent<SpriteRenderer>();
+                var renderer = button.Button.GetComponent<SpriteRenderer>();
 
                 if (renderer == null)
                 {
