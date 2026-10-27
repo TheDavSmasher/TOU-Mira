@@ -197,8 +197,7 @@ public static class GameHistory
             stats.TrackedRoles = [];
         }
 
-        RoleDictionary.Remove(player.PlayerId);
-        RoleDictionary.Add(player.PlayerId, role);
+        RoleDictionary[player.PlayerId] = role;
 
         RoleHistory.Add(KeyValuePair.Create(player.PlayerId, role));
         stats.DisplayedRole = role;
@@ -206,8 +205,7 @@ public static class GameHistory
         var trackRole = true;
         if (!role.IsDead)
         {
-            RoleWhenAlive.Remove(player.PlayerId);
-            RoleWhenAlive.Add(player.PlayerId, role);
+            RoleWhenAlive[player.PlayerId] = role;
         }
         else if (MiscUtils.IsBasicGhost(role))
         {
