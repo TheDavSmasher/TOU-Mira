@@ -60,25 +60,16 @@ public static class PlumberEvents
     [RegisterEvent]
     public static void EjectionEventHandler(EjectionEvent _)
     {
-        if (OptionGroupSingleton<PlumberOptions>.Instance.BarricadeRoundDuration > 0)
+        if (PlumberRole.PlumberBarricade.BarricadeDuration > 0)
         {
-            var unblockedVents = new HashSet<int>();
-            foreach (var (ventId, rounds) in PlumberRole.VentsBlocked)
+            foreach (var (ventId, barricade) in PlumberRole.VentsBlocked)
             {
-                if (rounds == 1)
+                barricade.UpdateRounds();
+                if (barricade.Rounds == 0)
                 {
-                    unblockedVents.Add(ventId);
-                    PlumberRole.Barricades.Remove(ventId, out var barricade);
-                    UnityEngine.Object.Destroy(barricade);
-                    continue;
+                    PlumberRole.VentsBlocked.Remove(ventId);
+                    barricade!.Destroy();
                 }
-
-                PlumberRole.VentsBlocked[ventId] -= 1;
-            }
-
-            foreach (var vent in unblockedVents)
-            {
-                PlumberRole.VentsBlocked.Remove(vent);
             }
 
             PlumberRole.VentFlushSet.Clear();
