@@ -32,9 +32,7 @@ public static class TimeLordBodyManager
         public byte? DraggedByPlayerId { get; set; }
     }
 
-    private static readonly Dictionary<byte, CleanedBodyRecord> CleanedBodies = [];
-
-    public static Dictionary<byte, CleanedBodyRecord> CleanBodies => CleanedBodies;
+    public static Dictionary<byte, CleanedBodyRecord> CleanedBodies { get; private set; } = [];
 
     public static readonly ManualLogSource BodyLogger =
         BepInEx.Logging.Logger.CreateLogSource("TOU.TimeLordBodies");

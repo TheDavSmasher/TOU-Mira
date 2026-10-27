@@ -23,9 +23,7 @@ public static class BucketTooltipData
     }
 
     // ── All possible roles per bucket ─────────────────────────────────────────
-    public static Dictionary<RoleListOption, RoleEntry[]> AllRoles => _allRoles;
-
-    private static readonly Dictionary<RoleListOption, RoleEntry[]> _allRoles = [];
+    public static Dictionary<RoleListOption, RoleEntry[]> AllRoles { get; private set; } = [];
 
     // Group buckets map to multiple specific buckets
     private static readonly Dictionary<RoleListOption, RoleListOption[]> _groupBuckets = new()
@@ -97,7 +95,7 @@ public static class BucketTooltipData
         {
             buckets = grouped;
         }
-        else if (_allRoles.ContainsKey(bucket))
+        else if (AllRoles.ContainsKey(bucket))
         {
             buckets = [bucket];
         }
@@ -110,7 +108,7 @@ public static class BucketTooltipData
         var result = new List<RoleEntry>();
         foreach (var b in buckets)
         {
-            if (!_allRoles.TryGetValue(b, out var entries))
+            if (!AllRoles.TryGetValue(b, out var entries))
             {
                 Error($"All Roles doesn't contain {b.ToDisplayString()}!");
                 continue;

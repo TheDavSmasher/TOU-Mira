@@ -137,7 +137,7 @@ public static class VitalsBodyPatches
         __instance.inMovingPlat = false;
         __instance.isKilling = false;
         __instance.currentRoleAnimations.Clear();
-        if (TimeLordBodyManager.CleanBodies.TryGetValue(__instance.PlayerId, out var record) && !record.PetWasRemoved && !string.IsNullOrEmpty(record.OriginalPetId))
+        if (TimeLordBodyManager.CleanedBodies.TryGetValue(__instance.PlayerId, out var record) && !record.PetWasRemoved && !string.IsNullOrEmpty(record.OriginalPetId))
         {
             __instance.SetPet(record.OriginalPetId);
         }
