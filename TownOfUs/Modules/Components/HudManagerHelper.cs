@@ -531,11 +531,10 @@ public sealed class HudManagerHelper(nint cppPtr) : MonoBehaviour(cppPtr)
         var roleOnTop = HudManagerPatches.RoleOnTop;
 
         var localImp = PlayerControl.LocalPlayer.IsImpostorAligned() &&
-                       genOpt is
-                       { ImpsKnowRoles.Value: true, FFAImpostorMode: false };
+                       genOpt.ImpsKnowRoles && !isImpFfa;
         var localVamp = PlayerControl.LocalPlayer.GetRoleWhenAlive() is VampireRole;
         var useMiraApiChecks =
-            !localDead && (!PlayerControl.LocalPlayer.IsImpostorAligned() || !genOpt.FFAImpostorMode);
+            !localDead && (!PlayerControl.LocalPlayer.IsImpostorAligned() || !isImpFfa);
 
         var revealMods = player.GetModifiers<BaseRevealModifier>(x => x.Visible);
 
