@@ -510,7 +510,7 @@ public sealed class HudManagerHelper(nint cppPtr) : MonoBehaviour(cppPtr)
         var isImpFfa = genOpt.FFAImpostorMode;
 
         var localDead = PlayerControl.LocalPlayer.HasDied();
-        var localGhost = localDead && genOpt.TheDeadKnow;
+        var localGhost = localDead && genOpt.TheDeadKnow && (inMeeting || isVisible);
         
         var roleNameSize = HudManagerPatches.RoleIsSmall ? "80%" : "100%";
         var roleOnTop = HudManagerPatches.RoleOnTop;
@@ -521,12 +521,6 @@ public sealed class HudManagerHelper(nint cppPtr) : MonoBehaviour(cppPtr)
         var localVamp = PlayerControl.LocalPlayer.GetRoleWhenAlive() is VampireRole;
         var useMiraApiChecks =
             !localDead && (!PlayerControl.LocalPlayer.IsImpostorAligned() || !genOpt.FFAImpostorMode);
-
-        // End Shared of loop
-        if (!inMeeting && localGhost)
-        {
-            localGhost = isVisible;
-        }
 
         var revealMods = player.GetModifiers<BaseRevealModifier>(x => x.Visible);
 
