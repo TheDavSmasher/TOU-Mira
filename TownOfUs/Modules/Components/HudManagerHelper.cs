@@ -503,6 +503,21 @@ public sealed class HudManagerHelper(nint cppPtr) : MonoBehaviour(cppPtr)
         }
     }
 
+    private static string GetRoleNameText(RoleBehaviour role)
+    {
+        if (role.Role is RoleTypes.GuardianAngel)
+        {
+            return TranslationController.Instance.GetString(StringNames.GuardianAngelRole);
+        }
+
+        if (role.Role is RoleTypes.SpiritGuide)
+        {
+            return TranslationController.Instance.GetString(StringNames.SpiritGuideRole);
+        }
+
+        return role.GetRoleName();
+    }
+
     internal static (Color PlayerColor, string PlayerName) GetRoleNameText(PlayerControl player, bool colorPlayerNames, bool inMeeting, bool isVisible = true, string? causeOfDeath = null)
     {
         var genOpt = OptionGroupSingleton<GeneralOptions>.Instance;
@@ -558,16 +573,7 @@ public sealed class HudManagerHelper(nint cppPtr) : MonoBehaviour(cppPtr)
                 role = RoleManager.Instance.GetRole(RoleTypes.Impostor);
             }
             color = role.TeamColor;
-            roleName = $"<size={roleNameSize}>{MiscUtils.GetToggledRoleTmpIcon(role, HudManagerPatches.IconOnRoleName)}{color.ToTextColor()}{role.GetRoleName()}</color></size>";
-
-            if (role.Role is RoleTypes.GuardianAngel)
-            {
-                roleName = $"<size={roleNameSize}>{MiscUtils.GetToggledRoleTmpIcon(role, HudManagerPatches.IconOnRoleName)}{color.ToTextColor()}{TranslationController.Instance.GetString(StringNames.GuardianAngelRole)}</color></size>";
-            }
-            else if (role.Role is RoleTypes.SpiritGuide)
-            {
-                roleName = $"<size={roleNameSize}>{MiscUtils.GetToggledRoleTmpIcon(role, HudManagerPatches.IconOnRoleName)}{color.ToTextColor()}{TranslationController.Instance.GetString(StringNames.SpiritGuideRole)}</color></size>";
-            }
+            roleName = $"<size={roleNameSize}>{MiscUtils.GetToggledRoleTmpIcon(role, HudManagerPatches.IconOnRoleName)}{color.ToTextColor()}{GetRoleNameText(role)}</color></size>";
 
             var revealedRole = revealMods.FirstOrDefault(x => x.RevealRole && x.ShownRole != null);
             if (revealedRole != null)
