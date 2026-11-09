@@ -503,7 +503,7 @@ public sealed class HudManagerHelper(nint cppPtr) : MonoBehaviour(cppPtr)
         }
     }
 
-    internal static (Color PlayerColor, string PlayerName) GetRoleNameText(PlayerControl player, bool colorPlayerNames, bool inMeeting, bool isVisible = true, bool removeCod = false)
+    internal static (Color PlayerColor, string PlayerName) GetRoleNameText(PlayerControl player, bool colorPlayerNames, bool inMeeting, bool isVisible = true, string? causeOfDeath = null)
     {
         var genOpt = OptionGroupSingleton<GeneralOptions>.Instance;
         var taskOpt = OptionGroupSingleton<PostmortemOptions>.Instance;
@@ -603,9 +603,9 @@ public sealed class HudManagerHelper(nint cppPtr) : MonoBehaviour(cppPtr)
                     : $"<size={roleNameSize}>{cache.CachedRole.TeamColor.ToTextColor()}{cachedName}</color> ({MiscUtils.GetToggledRoleTmpIcon(role, HudManagerPatches.IconOnRoleName)}{color.ToTextColor()}{role.GetRoleName()}</color>)</size>";
             }
 
-            if (removeCod)
+            if (causeOfDeath != null)
             {
-                topText += "<cod>\n";
+                topText += causeOfDeath + "\n";
             }
             else if (localDead && isVisible &&
                      GameHistory.PlayerStats.TryGetValue(player.PlayerId, out var stats) &&
@@ -615,9 +615,9 @@ public sealed class HudManagerHelper(nint cppPtr) : MonoBehaviour(cppPtr)
                     $"<size={(inMeeting ? 60 : 75)}%>『{Color.yellow.ToTextColor()}{stats.DeathString}</color>』</size>\n";
             }
         }
-        else if (removeCod)
+        else if (causeOfDeath != null)
         {
-            topText += "<cod>\n";
+            topText += causeOfDeath + "\n";
         }
 
         var revealedColorMod = revealMods.FirstOrDefault(x => x.NameColor != null);

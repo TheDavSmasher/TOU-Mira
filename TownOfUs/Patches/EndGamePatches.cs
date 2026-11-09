@@ -749,14 +749,10 @@ public static class EndGamePatches
                 GetCauseOfDeathString(MiraLocaleManager.Get("DisconnectedDataFull")
                     .Replace("<cod>", state.DeathString));
 
-            var (playerColor, playerName) = GetRoleNameText(player, false, true, true, true);
-            playerName = playerName.Replace("<cod>", causeOfDeath);
-            var (playerColorColored, playerNameColored) = GetRoleNameText(player, true, true, true, true);
-            playerNameColored = playerNameColored.Replace("<cod>", causeOfDeath);
-            var (playerColorFull, playerNameFull) = GetRoleNameText(player, false, true, true, true);
-            playerNameFull = playerNameFull.Replace("<cod>", causeOfDeathFull);
-            var (playerColorColoredFull, playerNameColoredFull) = GetRoleNameText(player, true, true, true, true);
-            playerNameColoredFull = playerNameColoredFull.Replace("<cod>", causeOfDeathFull);
+            var (playerColor, playerName) = GetRoleNameText(player, false, true, true, causeOfDeath);
+            var (playerColorColored, playerNameColored) = GetRoleNameText(player, true, true, true, causeOfDeath);
+            var (playerColorFull, playerNameFull) = GetRoleNameText(player, false, true, true, causeOfDeathFull);
+            var (playerColorColoredFull, playerNameColoredFull) = GetRoleNameText(player, true, true, true, causeOfDeathFull);
             PlayerMeetingRecords.Add(new PlayerMeetingRecord
             {
                 PlayerNameUncolored = playerName,
