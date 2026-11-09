@@ -579,12 +579,12 @@ public sealed class HudManagerHelper(nint cppPtr) : MonoBehaviour(cppPtr)
 
             if (!player.HasModifier<VampireBittenModifier>() && role is VampireRole && (vampBuddy || localGhost))
             {
-                roleName += $"<size={roleNameSize}><color=#FFFFFF> (<color=#A22929>OG</color>)</color></size>";
+                roleName += $"<size={roleNameSize}><color=#FFFFFF> ({TownOfUsColors.Vampire.ToTextColor()}OG</color>)</color></size>";
             }
 
             if (player.HasModifier<AmbassadorRetrainedModifier>() && (impostorBuddy || localGhost))
             {
-                roleName += $"<size={roleNameSize}><color=#FFFFFF> (<color=#D63F42>Retrained</color>)</color></size>";
+                roleName += $"<size={roleNameSize}><color=#FFFFFF> ({TownOfUsColors.ImpSoft.ToTextColor()}Retrained</color>)</color></size>";
             }
 
             if (player.TryGetModifierOfType<ICachedRole>(out var cache, x => x.Visible) &&
