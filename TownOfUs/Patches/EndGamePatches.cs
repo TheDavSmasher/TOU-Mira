@@ -5,7 +5,6 @@ using MiraAPI.Utilities;
 using Reactor.Utilities.Extensions;
 using System.Text;
 using MiraAPI.Events;
-using MiraAPI.GameOptions;
 using TMPro;
 using TownOfUs.Achievements;
 using TownOfUs.Events;
@@ -14,7 +13,6 @@ using TownOfUs.Interfaces;
 using TownOfUs.Modifiers.Game;
 using TownOfUs.Modules;
 using TownOfUs.Modules.Components;
-using TownOfUs.Options;
 using TownOfUs.Roles;
 using TownOfUs.Roles.Neutral;
 using TownOfUs.Roles.Other;
@@ -750,33 +748,14 @@ public static class EndGamePatches
             var causeOfDeathFull =
                 GetCauseOfDeathString(MiraLocaleManager.Get("DisconnectedDataFull")
                     .Replace("<cod>", state.DeathString));
-            var genOpt = OptionGroupSingleton<GeneralOptions>.Instance;
-            var taskOpt = OptionGroupSingleton<PostmortemOptions>.Instance;
 
-            var roleNameSize = HudManagerPatches.RoleIsSmall ? "80%" : "100%";
-            var roleOnTop = HudManagerPatches.RoleOnTop;
-
-            var localDead = PlayerControl.LocalPlayer.HasDied();
-            var localGhost = localDead && genOpt.TheDeadKnow;
-            var localImp = PlayerControl.LocalPlayer.IsImpostorAligned() &&
-                           genOpt is
-                           { ImpsKnowRoles.Value: true, FFAImpostorMode: false };
-            var localVamp = PlayerControl.LocalPlayer.GetRoleWhenAlive() is VampireRole;
-            var useMiraApiChecks =
-                !localDead && (!PlayerControl.LocalPlayer.IsImpostorAligned() || !genOpt.FFAImpostorMode);
-            var (playerColor, playerName) = GetRoleNameText(player, genOpt.FFAImpostorMode, taskOpt, roleNameSize,
-                roleOnTop, false, localDead, localGhost, localImp, localVamp, useMiraApiChecks, true, true, true);
+            var (playerColor, playerName) = GetRoleNameText(player, false, true, true, true);
             playerName = playerName.Replace("<cod>", causeOfDeath);
-            var (playerColorColored, playerNameColored) = GetRoleNameText(player, genOpt.FFAImpostorMode, taskOpt,
-                roleNameSize, roleOnTop, true, localDead, localGhost, localImp, localVamp, useMiraApiChecks, true, true,
-                true);
+            var (playerColorColored, playerNameColored) = GetRoleNameText(player, true, true, true, true);
             playerNameColored = playerNameColored.Replace("<cod>", causeOfDeath);
-            var (playerColorFull, playerNameFull) = GetRoleNameText(player, genOpt.FFAImpostorMode, taskOpt,
-                roleNameSize, roleOnTop, false, true, true, localImp, localVamp, useMiraApiChecks, true, true, true);
+            var (playerColorFull, playerNameFull) = GetRoleNameText(player, false, true, true, true);
             playerNameFull = playerNameFull.Replace("<cod>", causeOfDeathFull);
-            var (playerColorColoredFull, playerNameColoredFull) = GetRoleNameText(player, genOpt.FFAImpostorMode,
-                taskOpt, roleNameSize, roleOnTop, true, true, true, localImp, localVamp, useMiraApiChecks, true, true,
-                true);
+            var (playerColorColoredFull, playerNameColoredFull) = GetRoleNameText(player, true, true, true, true);
             playerNameColoredFull = playerNameColoredFull.Replace("<cod>", causeOfDeathFull);
             PlayerMeetingRecords.Add(new PlayerMeetingRecord
             {
