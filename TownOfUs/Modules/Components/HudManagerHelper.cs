@@ -550,8 +550,9 @@ public sealed class HudManagerHelper(nint cppPtr) : MonoBehaviour(cppPtr)
 
         var localSleuth = SleuthModifier.SleuthVisibilityFlag(player);
         var role = player.Data.Role;
-        if (localSleuth || role.Role is RoleTypes.ImpostorGhost or RoleTypes.CrewmateGhost ||
-            role.Role == (RoleTypes)(RoleId.Get<NeutralGhostRole>()))
+        if (localSleuth ||
+            role.Role is RoleTypes.ImpostorGhost or RoleTypes.CrewmateGhost ||
+            role.Role == RoleId.GetType<NeutralGhostRole>())
         {
             role = player.GetRoleWhenAlive();
         }
